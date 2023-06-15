@@ -1,10 +1,10 @@
 export function createProjectForm() {
     let form = document.createElement('div');
-    form.classList.add('form');
+    form.setAttribute('id','form');
 
     let name = document.createElement('input');
     name.type = 'text';
-    name.classList.add('projectForm');
+    name.classList.add('projectName');
     name.placeholder = 'Enter project name';
 
     let buttons = document.createElement('div');
