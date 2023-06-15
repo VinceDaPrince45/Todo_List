@@ -14,11 +14,13 @@ import { createProjectForm } from './forms.js';
 const projectList = [];
 
 
-
+const projects = document.querySelector('.projects');
 const referenceNode = document.querySelector('.project');
 const addProject = document.querySelector('button');
 addProject.addEventListener('click', () => {
     // function to show a form and append result to list
     // import functions 
-    referenceNode.before(createProjectForm());
+    if (!projects.contains(document.querySelector('.form'))) {
+        referenceNode.before(createProjectForm());
+    }
 })
