@@ -1,5 +1,7 @@
 import './style.css';
 import { createProjectForm } from './forms.js';
+import { projectObject } from './project.js';
+import { taskObject } from './project.js';
 
 // add project button appends to an empty array/object
 
@@ -11,22 +13,28 @@ import { createProjectForm } from './forms.js';
 
 // imported functions will deal with dom manipulation
 
+// create arrays for all tasks, important tasks, and tasks ordered by date
+
 const projectList = [];
+const allTasks = [];
+const importantTasks = [];
+const dateTasks = [];
 
 
 const projects = document.querySelector('.projects');
 const referenceNode = document.querySelector('.project');
 const addProject = document.querySelector('button');
+
 addProject.addEventListener('click', () => {
-    // function to show a form and append result to list
-    // import functions 
     if (!projects.contains(document.querySelector('#form'))) {
         referenceNode.before(createProjectForm());
         let addProject = document.querySelector('.addProject')
         addProject.addEventListener('click', () => {
             let projectName = document.querySelector('.projectName');
-            projectList.push(projectName.value);
+            let newProject = new projectObject(projectName.value);
+            projectList.push(newProject);
             console.log(projectList);
+            projects.removeChild(document.querySelector('#form'));
             // need to convert projectName into object through constructor
         })
         let cancelProject = document.querySelector('.cancelProject');
