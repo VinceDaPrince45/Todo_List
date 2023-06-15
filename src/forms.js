@@ -9,10 +9,10 @@ export function createProjectForm() {
 
     let buttons = document.createElement('div');
     let add = document.createElement('button');
-    add.classList.add('add');
+    add.classList.add('addProject');
     add.textContent = 'add';
     let cancel = document.createElement('button');
-    cancel.classList.add('cancel');
+    cancel.classList.add('cancelProject');
     cancel.textContent = 'cancel';
     buttons.append(add,cancel);
     buttons.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:1em';
