@@ -20,7 +20,19 @@ const addProject = document.querySelector('button');
 addProject.addEventListener('click', () => {
     // function to show a form and append result to list
     // import functions 
-    if (!projects.contains(document.querySelector('.form'))) {
+    if (!projects.contains(document.querySelector('#form'))) {
         referenceNode.before(createProjectForm());
+        let addProject = document.querySelector('.addProject')
+        addProject.addEventListener('click', () => {
+            let projectName = document.querySelector('.projectName');
+            projectList.push(projectName.value);
+            console.log(projectList);
+            // need to convert projectName into object through constructor
+        })
+        let cancelProject = document.querySelector('.cancelProject');
+        cancelProject.addEventListener('click', () => {
+            projects.removeChild(document.querySelector('#form'));
+        })
     }
 })
+
