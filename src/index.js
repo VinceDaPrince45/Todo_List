@@ -17,8 +17,6 @@ import { evaluateProject, evalulateTask } from './dom';
 
 const projectList = [];
 const allTasks = [];
-const importantTasks = [];
-const dateTasks = [];
 
 const addProject = document.querySelector('.buttonProject');
 const addTask = document.querySelector('.buttonTasks');

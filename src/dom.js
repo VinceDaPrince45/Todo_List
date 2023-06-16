@@ -103,3 +103,21 @@ export function evalulateTask(mainlist) {
         })
     }
 }
+
+// each tab on sidebar brings different array to view
+
+// add event listener to each tab
+
+// all tasks views allTasks array
+
+// today goes through allTasks array and sees which task.date == today
+
+// next 7 days goes through allTasks array and sees which tasks have task.date < today + 7 days
+
+// important goes through allTasks and sees which tasks have task.priority == 'important'
+
+// pressing on individual projects on sidebar brings up projectList and iterates through project.tasks
+    // add event listener to sidebar
+    // if e.target.classList.contains('project') or wtv the classname was
+    // return the data-name of the project, which should be name of project and find the index through projectList
+    

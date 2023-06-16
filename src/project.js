@@ -8,4 +8,5 @@ export const taskObject = function(name,description,date) {
     this.name = name;
     this.description = description;
     this.date = date;
+    // create this.priority and use radio buttons with choice normal/important
 }
