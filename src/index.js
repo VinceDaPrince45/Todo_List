@@ -1,7 +1,6 @@
 import './style.css';
 import { createProjectForm, createTaskForm } from './forms.js';
-import { projectObject } from './project.js';
-import { taskObject } from './project.js';
+import { addForm, updateList, addToProjects, removeForm, addToAllTasks } from './dom';
 
 // add project button appends to an empty array/object
 
@@ -33,60 +32,43 @@ const referenceTask = document.querySelector('.buttonTasks');
 function evaluateProject() {
     if (!projects.contains(document.querySelector('#form'))) {
         // add form before the button
-        referenceProject.before(createProjectForm());
+        addForm(referenceProject,createProjectForm());
         // access the button inside form and add event listener to submit
         let addProject = document.querySelector('.addProject');
         addProject.addEventListener('click', () => {
             // add input to database
-            let projectName = document.querySelector('.projectName');
-            let newProject = new projectObject(projectName.value);
-            projectList.push(newProject);
-            console.log(projectList);
+            addToProjects(projectList);
             // remove form
-            projects.removeChild(document.querySelector('#form'));
+            removeForm(projects);
+            // update list
             let projectItems = document.querySelectorAll('.projectItem');
-            for (const item of projectItems) {
-                projects.removeChild(item);
-            }
-            for (const item of projectList) {
-                let div = document.createElement('div');
-                div.classList.add('projectItem');
-                div.textContent = item.name;
-                referenceProject.before(div);
-            };
+            updateList(projects,referenceProject,projectItems,projectList);
         })
         // access the cancel button inside form and delete form when pressed
         let cancelProject = document.querySelector('.cancelProject');
         cancelProject.addEventListener('click', () => {
-            projects.removeChild(document.querySelector('#form'));
+            removeForm(projects);
         })
-        // add name of project to sidebar
-        referenceProject.before()
     }
 }
 
 function evalulateTask() {
     if (!content.contains(document.querySelector('#form'))) {
         // add form before button
-        referenceTask.before(createTaskForm());
-        // access button insdie form and add event listener to submit
+        addForm(referenceTask,createTaskForm());
+        // access button inside form and add event listener to submit
         let addTask = document.querySelector('.addTask');
         addTask.addEventListener('click', () => {
             // add input to database
-            let taskName = document.querySelector('.taskName');
-            let taskDescription = document.querySelector('.taskDescription');
-            let taskDate = document.querySelector('.taskDate');
-            let newTask = new taskObject(taskName.value,taskDescription.value,taskDate.value);
-            allTasks.push(newTask);
-            console.log(allTasks);
+            addToAllTasks(allTasks);
             // remove form
-            content.removeChild(document.querySelector('#form'));
+            removeForm(content);
             // if prject tab is active, also add to the projects object tasks property
         })
         // access cancel button inside form and delete when pressed
         let cancelTask = document.querySelector('.cancelTask');
         cancelTask.addEventListener('click', () => {
-            content.removeChild(document.querySelector('#form'));
+            removeForm(content);
         })
     }
 }
