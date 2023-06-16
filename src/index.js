@@ -1,5 +1,5 @@
 import './style.css';
-import { createProjectForm } from './forms.js';
+import { createProjectForm, createTaskForm } from './forms.js';
 import { projectObject } from './project.js';
 import { taskObject } from './project.js';
 
@@ -22,13 +22,13 @@ const dateTasks = [];
 
 
 const projects = document.querySelector('.projects');
-const referenceNode = document.querySelector('.project');
-const addProject = document.querySelector('button');
+const referenceProject = document.querySelector('.buttonProject')
+const addProject = document.querySelector('.buttonProject');
 
 addProject.addEventListener('click', () => {
     if (!projects.contains(document.querySelector('#form'))) {
-        referenceNode.before(createProjectForm());
-        let addProject = document.querySelector('.addProject')
+        referenceProject.before(createProjectForm());
+        let addProject = document.querySelector('.addProject');
         addProject.addEventListener('click', () => {
             let projectName = document.querySelector('.projectName');
             let newProject = new projectObject(projectName.value);
@@ -44,3 +44,27 @@ addProject.addEventListener('click', () => {
     }
 })
 
+const addTask = document.querySelector('.buttonTasks');
+const content = document.querySelector('.content')
+const referenceTask = document.querySelector('.buttonTasks')
+
+addTask.addEventListener('click', () => {
+    if (!content.contains(document.querySelector('#form'))) {
+        referenceTask.before(createTaskForm());
+        let addTask = document.querySelector('.addTask');
+        addTask.addEventListener('click', () => {
+            let taskName = document.querySelector('.taskName');
+            let taskDescription = document.querySelector('.taskDescription');
+            let taskDate = document.querySelector('.taskDate');
+            let newTask = new taskObject(taskName.value,taskDescription.value,taskDate.value);
+            allTasks.push(newTask);
+            console.log(allTasks);
+            content.removeChild(document.querySelector('#form'));
+            // if prject tab is active, also add to the projects object tasks property
+        })
+        let cancelTask = document.querySelector('.cancelTask');
+        cancelTask.addEventListener('click', () => {
+            content.removeChild(document.querySelector('#form'));
+        })
+    }
+})

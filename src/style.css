@@ -53,3 +53,10 @@ body {
     padding:1em;
     background-color: rgb(167, 165, 165);
 }
+
+.content {
+    display:flex;
+    flex-direction: column;
+    align-content: center;
+    padding:1em;
+}
