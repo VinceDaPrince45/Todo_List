@@ -40,6 +40,15 @@ export function createTaskForm() {
     date.type = 'date';
     date.classList.add('taskDate');
 
+    // let priorityLabel = document.createElement('label');
+    // priorityLabel.for = 'priority';
+    // priorityLabel.textContent = 'Important?';
+
+    let priority = document.createElement('input');
+    priority.type = 'checkbox';
+    priority.classList.add('priority');
+    priority.value = 'important';
+
     let buttons = document.createElement('div');
     let add = document.createElement('button');
     add.classList.add('addTask');
@@ -52,6 +61,6 @@ export function createTaskForm() {
 
     form.style.cssText = 'display:grid;grid-template-rows:repeat(auto-fit,1fr);gap:1em;justify-content:center';
 
-    form.append(name,description,date,buttons);
+    form.append(name,description,date,priority,buttons);
     return form;
 }
