@@ -1,5 +1,5 @@
 import './style.css';
-import { evaluateProject, evalulateTask } from './dom';
+import { evaluateProject, evalulateTask, changeHeader } from './dom';
 
 // add project button appends to an empty array/object
 
@@ -31,23 +31,24 @@ addTask.addEventListener('click', () => {
 
 addProject.addEventListener('click', () => {
     evaluateProject(projectList);
-
 });
 
-tabAllTasks.addEventListener('click',
-// function
-)
+tabAllTasks.addEventListener('click', () => {
+    // function
+    changeHeader('All Tasks');
+})
 
-tabToday.addEventListener('click',
-// function
-)
+tabToday.addEventListener('click', () => {
+    // function
+    changeHeader('Today');
+})
 
-tabNextWeek.addEventListener('click',
-// function
-)
+tabNextWeek.addEventListener('click', () => {
+    // function
+    changeHeader('Next 7 Days');
+})
 
-tabImportant.addEventListener('click',
-// function
-)
-
-// add buttons to the created projects that adds "active" class to them
+tabImportant.addEventListener('click', () => {
+    // function
+    changeHeader('Important');
+})

@@ -121,3 +121,11 @@ export function evalulateTask(mainlist) {
     // if e.target.classList.contains('project') or wtv the classname was
     // return the data-name of the project, which should be name of project and find the index through projectList
     
+// for each tab add dom changes like for restaurant page
+
+// when addTask is pressed, find which tab is active and add to the array accordingly
+
+export function changeHeader(phrase) {
+    let header = document.querySelector('.content > .header');
+    header.textContent = phrase;
+}
