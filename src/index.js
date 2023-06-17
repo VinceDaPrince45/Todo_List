@@ -20,14 +20,34 @@ const allTasks = [];
 
 const addProject = document.querySelector('.buttonProject');
 const addTask = document.querySelector('.buttonTasks');
+const tabAllTasks = document.querySelector('.allTasks');
+const tabToday = document.querySelector('.today');
+const tabNextWeek = document.querySelector('.nextWeek');
+const tabImportant = document.querySelector('.important');
 
 addTask.addEventListener('click', () => {
     evalulateTask(allTasks);
-})
+});
 
 addProject.addEventListener('click', () => {
     evaluateProject(projectList);
 
-})
+});
+
+tabAllTasks.addEventListener('click',
+// function
+)
+
+tabToday.addEventListener('click',
+// function
+)
+
+tabNextWeek.addEventListener('click',
+// function
+)
+
+tabImportant.addEventListener('click',
+// function
+)
 
 // add buttons to the created projects that adds "active" class to them
