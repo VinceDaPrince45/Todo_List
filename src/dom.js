@@ -175,3 +175,24 @@ export function addToList(listAll,specificList,taskObject) {
         }
     }
 }
+
+
+// function takes in arrays from main js file and returns the one thats needed after checking active tab
+
+export function checkActive(arrayOne,arrayTwo,arrayThree,arrayFour) {
+    let tabs = document.querySelectorAll('.hometab');
+    for (const tab of tabs) {
+        if (tab.classList.contains('active')) {
+            switch (tab.getAttribute('id')) {
+                case 'allTasks':
+                    return arrayOne;
+                case 'today' :
+                    return arrayTwo;
+                case 'nextWeek':
+                    return arrayThree;
+                case 'important':
+                    return arrayFour;
+            }
+        }
+    }
+}

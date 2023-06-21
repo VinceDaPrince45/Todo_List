@@ -1,5 +1,5 @@
 import './style.css';
-import { evaluateProject, evalulateTask, changeHeader, refreshActive } from './dom';
+import { evaluateProject, evalulateTask, changeHeader, refreshActive, checkActive } from './dom';
 
 // add project button appends to an empty array/object
 
@@ -17,6 +17,9 @@ import { evaluateProject, evalulateTask, changeHeader, refreshActive } from './d
 
 const projectList = [];
 const allTasks = [];
+const todayTasks = [];
+const nextWeekTasks = [];
+const importantTasks = [];
 
 const addProject = document.querySelector('.buttonProject');
 const addTask = document.querySelector('.buttonTasks');
@@ -25,8 +28,11 @@ const tabToday = document.querySelector('#today');
 const tabNextWeek = document.querySelector('#nextWeek');
 const tabImportant = document.querySelector('#important');
 
+let activeArray;
+
 addTask.addEventListener('click', () => {
     evalulateTask(allTasks);
+    // update display based on current tab
 });
 
 addProject.addEventListener('click', () => {
@@ -37,26 +43,26 @@ tabAllTasks.addEventListener('click', (e) => {
     // function
     changeHeader('All Tasks');
     refreshActive(e);
-    console.log(e.target);
+    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
 })
 
 tabToday.addEventListener('click', (e) => {
     // function
     changeHeader('Today');
     refreshActive(e);
-    console.log(e.target);
+    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
 })
 
 tabNextWeek.addEventListener('click', (e) => {
     // function
     changeHeader('Next 7 Days');
     refreshActive(e);
-    console.log(e.target);
+    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
 })
 
 tabImportant.addEventListener('click', (e) => {
     // function
     changeHeader('Important');
     refreshActive(e);
-    console.log(e.target);
+    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
 });
