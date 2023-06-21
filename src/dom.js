@@ -129,3 +129,49 @@ export function changeHeader(phrase) {
     let header = document.querySelector('.content > .header');
     header.textContent = phrase;
 }
+
+// if (e.target && e.target.classList.contains('hometab')) {
+//     e.target.classList.add('active');
+// }
+
+export function displayTasks(event,mainlist,parent) {
+    if (event.target && event.target.classList.contains('hometab') && event.target.classList.contains('active')) {
+        // if event.target id is all tasks,iterate through mainlist and display each property of task
+        for (const item of mainlist) {
+            let div = document.createElement('div');
+            div.classList.add('card');
+            let name = document.createElement('div');
+            name.textContent = item.name;
+            let description = document.createElement('div');
+            description.textContent = item.description;
+            let date = document.createElement('div');
+            date.textContent = item.date;
+            let priority = document.createElement('div');
+            priority.textContent = item.priority;
+            div.append(name,description,date,priority);
+            parent.appendChild(div);
+        }
+    }
+}
+
+// when clicking addTask, look for whats active then assign a variable the array that will be accessed
+
+export function refreshActive(event) {
+    let tabs = document.querySelectorAll('.hometab');
+    for (const tab of tabs) {
+        tab.classList.remove('active');
+    }
+    if (event.target && event.target.classList.contains('hometab')) {
+        event.target.classList.add('active');
+    }
+}
+
+export function addToList(listAll,specificList,taskObject) {
+    let tabs = document.querySelectorAll('.hometab');
+    for (const tab of tabs) {
+        if (tab.classList.contains('active')) {
+            listAll.push(taskObject);
+            specificList.push(taskObject);
+        }
+    }
+}

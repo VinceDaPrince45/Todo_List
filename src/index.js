@@ -1,5 +1,5 @@
 import './style.css';
-import { evaluateProject, evalulateTask, changeHeader } from './dom';
+import { evaluateProject, evalulateTask, changeHeader, refreshActive } from './dom';
 
 // add project button appends to an empty array/object
 
@@ -20,10 +20,10 @@ const allTasks = [];
 
 const addProject = document.querySelector('.buttonProject');
 const addTask = document.querySelector('.buttonTasks');
-const tabAllTasks = document.querySelector('.allTasks');
-const tabToday = document.querySelector('.today');
-const tabNextWeek = document.querySelector('.nextWeek');
-const tabImportant = document.querySelector('.important');
+const tabAllTasks = document.querySelector('#allTasks');
+const tabToday = document.querySelector('#today');
+const tabNextWeek = document.querySelector('#nextWeek');
+const tabImportant = document.querySelector('#important');
 
 addTask.addEventListener('click', () => {
     evalulateTask(allTasks);
@@ -33,22 +33,30 @@ addProject.addEventListener('click', () => {
     evaluateProject(projectList);
 });
 
-tabAllTasks.addEventListener('click', () => {
+tabAllTasks.addEventListener('click', (e) => {
     // function
     changeHeader('All Tasks');
+    refreshActive(e);
+    console.log(e.target);
 })
 
-tabToday.addEventListener('click', () => {
+tabToday.addEventListener('click', (e) => {
     // function
     changeHeader('Today');
+    refreshActive(e);
+    console.log(e.target);
 })
 
-tabNextWeek.addEventListener('click', () => {
+tabNextWeek.addEventListener('click', (e) => {
     // function
     changeHeader('Next 7 Days');
+    refreshActive(e);
+    console.log(e.target);
 })
 
-tabImportant.addEventListener('click', () => {
+tabImportant.addEventListener('click', (e) => {
     // function
     changeHeader('Important');
-})
+    refreshActive(e);
+    console.log(e.target);
+});
