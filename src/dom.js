@@ -74,16 +74,15 @@ export function evaluateProject(mainlist) {
 // TASKS
 
 // function to add task input values to allTask array
-function addToAllTasks(mainlist) {
+function addToArray(list) {
     let taskName = document.querySelector('.taskName');
     let taskDescription = document.querySelector('.taskDescription');
     let taskDate = document.querySelector('.taskDate');
     let newTask = new taskObject(taskName.value,taskDescription.value,taskDate.value);
-    mainlist.push(newTask);
-    console.log(mainlist);
+    list.push(newTask);
 }
 
-export function evalulateTask(mainlist) {
+export function evaluateTask(mainlist,specificlist) {
     if (!content.contains(document.querySelector('#form'))) {
         // add form before button
         addForm(referenceTask,createTaskForm());
@@ -91,10 +90,17 @@ export function evalulateTask(mainlist) {
         let addTask = document.querySelector('.addTask');
         addTask.addEventListener('click', () => {
             // add input to database
-            addToAllTasks(mainlist);
+            if (mainlist == specificlist) {
+                addToArray(mainlist);
+            } else {
+                addToArray(mainlist);
+                addToArray(specificlist);
+            }
             // remove form
             removeForm(content);
-            // if prject tab is active, also add to the projects object tasks property
+            // update display
+            displayActive(specificlist);
+
         })
         // access cancel button inside form and delete when pressed
         let cancelTask = document.querySelector('.cancelTask');
@@ -134,8 +140,10 @@ export function changeHeader(phrase) {
 //     e.target.classList.add('active');
 // }
 
-export function displayTasks(event,mainlist,parent) {
+export function changeTabs(event,mainlist) {
     if (event.target && event.target.classList.contains('hometab') && event.target.classList.contains('active')) {
+        // need to delete all previous content
+        clearDisplay();
         // if event.target id is all tasks,iterate through mainlist and display each property of task
         for (const item of mainlist) {
             let div = document.createElement('div');
@@ -149,7 +157,7 @@ export function displayTasks(event,mainlist,parent) {
             let priority = document.createElement('div');
             priority.textContent = item.priority;
             div.append(name,description,date,priority);
-            parent.appendChild(div);
+            content.appendChild(div);
         }
     }
 }
@@ -176,7 +184,6 @@ export function addToList(listAll,specificList,taskObject) {
     }
 }
 
-
 // function takes in arrays from main js file and returns the one thats needed after checking active tab
 
 export function checkActive(arrayOne,arrayTwo,arrayThree,arrayFour) {
@@ -194,5 +201,34 @@ export function checkActive(arrayOne,arrayTwo,arrayThree,arrayFour) {
                     return arrayFour;
             }
         }
+    }
+}
+
+export function displayActive(array) {
+    //  remove previous content
+    // iterate through array and add as cards
+    for (const item of array) {
+            let div = document.createElement('div');
+            div.classList.add('card');
+            let name = document.createElement('div');
+            name.textContent = item.name;
+            let description = document.createElement('div');
+            description.textContent = item.description;
+            let date = document.createElement('div');
+            date.textContent = item.date;
+            let priority = document.createElement('div');
+            priority.textContent = item.priority;
+            div.append(name,description,date,priority);
+            content.appendChild(div);
+    }
+}
+
+
+// remove previous content
+
+function clearDisplay() {
+    let cards = document.querySelectorAll('.card');
+    for (const card of cards) {
+        content.removeChild(card);
     }
 }
