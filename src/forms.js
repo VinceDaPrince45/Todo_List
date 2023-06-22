@@ -44,6 +44,7 @@ export function createTaskForm() {
     // priorityLabel.for = 'priority';
     // priorityLabel.textContent = 'Important?';
 
+    // need to fix this
     let priority = document.createElement('input');
     priority.type = 'checkbox';
     priority.classList.add('priority');
