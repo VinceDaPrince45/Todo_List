@@ -34,7 +34,6 @@ addTask.addEventListener('click', () => {
     // add task to array
     evaluateTask(allTasks,activeArray);
     // display array based on which tab is active
-
 });
 
 addProject.addEventListener('click', () => {

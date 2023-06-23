@@ -1,5 +1,4 @@
-import { projectObject } from './project.js';
-import { taskObject } from './project.js';
+import { projectObject, taskObject } from './project.js';
 import { createProjectForm, createTaskForm } from './forms.js';
 
 const projects = document.querySelector('.projects');
@@ -35,10 +34,10 @@ function addToProjects(mainlist) {
 }
 
 // function to update names on sidebar
-function updateList(parent,referencepoint,mainitems,mainlist) {
+function updateSidebar(referencepoint,mainitems,mainlist) {
     // delete all alements and readd name of projects from array to sidebar
     for (const item of mainitems) {
-        parent.removeChild(item);
+        projects.removeChild(item);
     }
     for (const item of mainlist) {
         let div = document.createElement('div');
@@ -47,6 +46,18 @@ function updateList(parent,referencepoint,mainitems,mainlist) {
         referencepoint.before(div);
     }
 }
+
+// need to add event listener to each project
+
+function addProjectListener(domArray,mainlist) {
+    for (const item of domArray) {
+        item.addEventListener('click', (event) => {
+            changeHeader(item.textContent);
+            refreshActive(event)
+        })
+    }
+}
+
 
 export function evaluateProject(mainlist) {
     if (!projects.contains(document.querySelector('#form'))) {
@@ -61,7 +72,9 @@ export function evaluateProject(mainlist) {
             removeForm(projects);
             // update list
             let projectItems = document.querySelectorAll('.projectItem');
-            updateList(projects,referenceProject,projectItems,mainlist);
+            updateSidebar(referenceProject,projectItems,mainlist);
+            projectItems = document.querySelectorAll('.projectItem');
+            addProjectListener(projectItems,mainlist);
         })
         // access the cancel button inside form and delete form when pressed
         let cancelProject = document.querySelector('.cancelProject');
@@ -166,11 +179,16 @@ export function changeTabs(event,mainlist) {
 
 export function refreshActive(event) {
     let tabs = document.querySelectorAll('.hometab');
+    let projectItems = document.querySelectorAll('.projectItem');
     for (const tab of tabs) {
         tab.classList.remove('active');
     }
-    if (event.target && event.target.classList.contains('hometab')) {
+    for (const item of projectItems) {
+        item.classList.remove('active');
+    }
+    if (event.target && (event.target.classList.contains('hometab') || event.target.classList.contains('projectItem'))) {
         event.target.classList.add('active');
+        console.log(event.target)
     }
 }
 
