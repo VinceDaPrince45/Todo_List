@@ -7,6 +7,9 @@ const content = document.querySelector('.content');
 const cards = document.querySelector('.cards');
 const referenceTask = document.querySelector('.buttonTasks');
 
+let activeProject;
+let activeTask;
+
 // PROJECTS
 
 export function evaluateProject(mainlist) {
@@ -88,42 +91,45 @@ function addProjectListener(domArray,mainlist) {
 
 // function to add task input values to allTask array
 
-function addToArray(list) {
+function createTaskObject() {
     let taskName = document.querySelector('.taskName');
     let taskDescription = document.querySelector('.taskDescription');
     let taskDate = document.querySelector('.taskDate');
-    let newTask = new taskObject(taskName.value,taskDescription.value,taskDate.value);
-    list.push(newTask);
+    let taskPriority = document.querySelector('.priority').checked;
+    if ((taskName.value !== '') && (taskDescription.value !== '') && (taskDate.value !== '')) {
+        let newTask = new taskObject(taskName.value,taskDescription.value,taskDate.value,taskPriority);
+        return newTask;
+        // check date for today and next week
+        // check importance
+    }
 }
 
-export function evaluateTask(mainlist,specificlist) {
-    if (!content.contains(document.querySelector('#form'))) {
-        // add form before button
-        addForm(referenceTask,createTaskForm());
-        // access button inside form and add event listener to submit
-        let addTask = document.querySelector('.addTask');
-        addTask.addEventListener('click', () => {
-            // add input to database
-            if (mainlist == specificlist) {
-                addToArray(mainlist);
-            } else {
-                addToArray(mainlist);
-                addToArray(specificlist);
-            }
-            // remove form
-            removeForm(content);
-            // update display
-            clearDisplay();
-            displayActive(specificlist);
+export function handleSubmit() {
+    activeTask = createTaskObject();
+    console.log(activeTask);
+    // evaluate the current inputs
+    // add to arrays that passed requirements
+}
 
-        })
+// when press submit, check all requirements of arrays and then add task to arrays if true
+// when active tab is shown on tabs, follow requirements for the form
+
+export function evaluateTask() {
+    if (!content.contains(document.querySelector('#form'))) {
+        addForm(referenceTask,createTaskForm());
+        // update display
+            // removeForm(content);
+            // clearDisplay();
+            // displayActive(activelist);
         // access cancel button inside form and delete when pressed
         let cancelTask = document.querySelector('.cancelTask');
-        cancelTask.addEventListener('click', () => {
+        cancelTask.addEventListener('click', (event) => {
             removeForm(content);
+            event.preventDefault();
         })
     }
 }
+
 
 export function changeHeader(phrase) {
     let header = document.querySelector('.content > .header');

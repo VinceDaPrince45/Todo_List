@@ -33,7 +33,7 @@ let activeArray = allTasks;
 addTask.addEventListener('click', () => {
     // add task to array
     activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
-    evaluateTask(allTasks,activeArray);
+    evaluateTask();
     // display array based on which tab is active
 });
 
