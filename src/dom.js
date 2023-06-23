@@ -7,9 +7,32 @@ const content = document.querySelector('.content');
 const cards = document.querySelector('.cards');
 const referenceTask = document.querySelector('.buttonTasks');
 
-export let activeProject;
-
 // PROJECTS
+
+export function evaluateProject(mainlist) {
+    if (!projects.contains(document.querySelector('#form'))) {
+        // add form before the button
+        addForm(referenceProject,createProjectForm());
+        // access the button inside form and add event listener to submit
+        let addProject = document.querySelector('.addProject');
+        addProject.addEventListener('click', () => {
+            // add input to database
+            addToProjects(mainlist);
+            // remove form
+            removeForm(projects);
+            // update list
+            let projectItems = document.querySelectorAll('.projectItem');
+            updateSidebar(referenceProject,projectItems,mainlist);
+            projectItems = document.querySelectorAll('.projectItem');
+            addProjectListener(projectItems,mainlist);
+        })
+        // access the cancel button inside form and delete form when pressed
+        let cancelProject = document.querySelector('.cancelProject');
+        cancelProject.addEventListener('click', () => {
+            removeForm(projects);
+        })
+    }
+}
 
 // add new form before button
 function addForm(referencePoint,form) {
@@ -21,8 +44,6 @@ function removeForm(parent) {
     parent.removeChild(document.querySelector('#form'));
 }
 
-// access button inside form and add event listener to submit
-
 // function to add inputs to data array
 
 function addToProjects(mainlist) {
@@ -32,6 +53,7 @@ function addToProjects(mainlist) {
 }
 
 // function to update names on sidebar
+
 function updateSidebar(referencepoint,mainitems,mainlist) {
     // delete all alements and readd name of projects from array to sidebar
     for (const item of mainitems) {
@@ -62,34 +84,10 @@ function addProjectListener(domArray,mainlist) {
 }
 
 
-export function evaluateProject(mainlist) {
-    if (!projects.contains(document.querySelector('#form'))) {
-        // add form before the button
-        addForm(referenceProject,createProjectForm());
-        // access the button inside form and add event listener to submit
-        let addProject = document.querySelector('.addProject');
-        addProject.addEventListener('click', () => {
-            // add input to database
-            addToProjects(mainlist);
-            // remove form
-            removeForm(projects);
-            // update list
-            let projectItems = document.querySelectorAll('.projectItem');
-            updateSidebar(referenceProject,projectItems,mainlist);
-            projectItems = document.querySelectorAll('.projectItem');
-            addProjectListener(projectItems,mainlist);
-        })
-        // access the cancel button inside form and delete form when pressed
-        let cancelProject = document.querySelector('.cancelProject');
-        cancelProject.addEventListener('click', () => {
-            removeForm(projects);
-        })
-    }
-}
-
 // TASKS
 
 // function to add task input values to allTask array
+
 function addToArray(list) {
     let taskName = document.querySelector('.taskName');
     let taskDescription = document.querySelector('.taskDescription');
@@ -127,27 +125,6 @@ export function evaluateTask(mainlist,specificlist) {
     }
 }
 
-// each tab on sidebar brings different array to view
-
-// add event listener to each tab
-
-// all tasks views allTasks array
-
-// today goes through allTasks array and sees which task.date == today
-
-// next 7 days goes through allTasks array and sees which tasks have task.date < today + 7 days
-
-// important goes through allTasks and sees which tasks have task.priority == 'important'
-
-// pressing on individual projects on sidebar brings up projectList and iterates through project.tasks
-    // add event listener to sidebar
-    // if e.target.classList.contains('project') or wtv the classname was
-    // return the data-name of the project, which should be name of project and find the index through projectList
-    
-// for each tab add dom changes like for restaurant page
-
-// when addTask is pressed, find which tab is active and add to the array accordingly
-
 export function changeHeader(phrase) {
     let header = document.querySelector('.content > .header');
     header.textContent = phrase;
@@ -175,16 +152,6 @@ export function refreshActive(event) {
     }
     if (event.target && (event.target.classList.contains('hometab') || event.target.classList.contains('projectItem'))) {
         event.target.classList.add('active');
-    }
-}
-
-export function addToList(listAll,specificList,taskObject) {
-    let tabs = document.querySelectorAll('.hometab');
-    for (const tab of tabs) {
-        if (tab.classList.contains('active')) {
-            listAll.push(taskObject);
-            specificList.push(taskObject);
-        }
     }
 }
 
@@ -233,7 +200,6 @@ function displayActive(array) {
             cards.appendChild(div);
     }
 }
-
 
 // remove previous content
 
