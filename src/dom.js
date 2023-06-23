@@ -4,6 +4,7 @@ import { createProjectForm, createTaskForm } from './forms.js';
 const projects = document.querySelector('.projects');
 const referenceProject = document.querySelector('.buttonProject')
 const content = document.querySelector('.content');
+const cards = document.querySelector('.cards');
 const referenceTask = document.querySelector('.buttonTasks');
 
 export let activeProject;
@@ -114,6 +115,7 @@ export function evaluateTask(mainlist,specificlist) {
             // remove form
             removeForm(content);
             // update display
+            clearDisplay();
             displayActive(specificlist);
 
         })
@@ -228,7 +230,7 @@ function displayActive(array) {
             let priority = document.createElement('div');
             priority.textContent = item.priority;
             div.append(name,description,date,priority);
-            content.appendChild(div);
+            cards.appendChild(div);
     }
 }
 
@@ -236,8 +238,8 @@ function displayActive(array) {
 // remove previous content
 
 function clearDisplay() {
-    let cards = document.querySelectorAll('.card');
-    for (const card of cards) {
-        content.removeChild(card);
+    let singleCards = document.querySelectorAll('.card');
+    for (const card of singleCards) {
+        cards.removeChild(card);
     }
 }
