@@ -32,6 +32,7 @@ let activeArray = allTasks;
 
 addTask.addEventListener('click', () => {
     // add task to array
+    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
     evaluateTask(allTasks,activeArray);
     // display array based on which tab is active
 });
@@ -61,7 +62,7 @@ tabNextWeek.addEventListener('click', (e) => {
     changeHeader('Next 7 Days');
     refreshActive(e);
     activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
-    changeTabs(e,activeArray);    changeTabs(e,activeArray);
+    changeTabs(e,activeArray);
 })
 
 tabImportant.addEventListener('click', (e) => {

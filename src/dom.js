@@ -6,6 +6,8 @@ const referenceProject = document.querySelector('.buttonProject')
 const content = document.querySelector('.content');
 const referenceTask = document.querySelector('.buttonTasks');
 
+export let activeProject;
+
 // PROJECTS
 
 // add new form before button
@@ -20,17 +22,12 @@ function removeForm(parent) {
 
 // access button inside form and add event listener to submit
 
-function accessAdd(className) {
-    let add = document.querySelector(`.${className}`);
-    add.addEventListener('click',)
-}
-
 // function to add inputs to data array
+
 function addToProjects(mainlist) {
     let projectName = document.querySelector('.projectName');
     let newProject = new projectObject(projectName.value);
     mainlist.push(newProject);
-    console.log(mainlist);
 }
 
 // function to update names on sidebar
@@ -50,10 +47,15 @@ function updateSidebar(referencepoint,mainitems,mainlist) {
 // need to add event listener to each project
 
 function addProjectListener(domArray,mainlist) {
-    for (const item of domArray) {
+    let arr = Array.from(domArray);
+    for (const item of arr) {
         item.addEventListener('click', (event) => {
             changeHeader(item.textContent);
             refreshActive(event)
+            activeProject = mainlist[arr.indexOf(item)].tasks;
+            console.log(activeProject);
+            clearDisplay();
+            displayActive(activeProject);
         })
     }
 }
@@ -149,29 +151,12 @@ export function changeHeader(phrase) {
     header.textContent = phrase;
 }
 
-// if (e.target && e.target.classList.contains('hometab')) {
-//     e.target.classList.add('active');
-// }
-
 export function changeTabs(event,mainlist) {
-    if (event.target && event.target.classList.contains('hometab') && event.target.classList.contains('active')) {
+    if (event.target && (event.target.classList.contains('hometab') || event.target.classList.contains('projectItem')) && event.target.classList.contains('active')) {
         // need to delete all previous content
         clearDisplay();
         // if event.target id is all tasks,iterate through mainlist and display each property of task
-        for (const item of mainlist) {
-            let div = document.createElement('div');
-            div.classList.add('card');
-            let name = document.createElement('div');
-            name.textContent = item.name;
-            let description = document.createElement('div');
-            description.textContent = item.description;
-            let date = document.createElement('div');
-            date.textContent = item.date;
-            let priority = document.createElement('div');
-            priority.textContent = item.priority;
-            div.append(name,description,date,priority);
-            content.appendChild(div);
-        }
+        displayActive(mainlist);
     }
 }
 
@@ -188,7 +173,6 @@ export function refreshActive(event) {
     }
     if (event.target && (event.target.classList.contains('hometab') || event.target.classList.contains('projectItem'))) {
         event.target.classList.add('active');
-        console.log(event.target)
     }
 }
 
@@ -206,6 +190,7 @@ export function addToList(listAll,specificList,taskObject) {
 
 export function checkActive(arrayOne,arrayTwo,arrayThree,arrayFour) {
     let tabs = document.querySelectorAll('.hometab');
+    let projectItems = document.querySelectorAll('.projectItem');
     for (const tab of tabs) {
         if (tab.classList.contains('active')) {
             switch (tab.getAttribute('id')) {
@@ -220,9 +205,15 @@ export function checkActive(arrayOne,arrayTwo,arrayThree,arrayFour) {
             }
         }
     }
+    for (const item of projectItems) {
+        if (item.classList.contains('active')) {
+            console.log(activeProject);
+            return activeProject;
+        }
+    }
 }
 
-export function displayActive(array) {
+function displayActive(array) {
     //  remove previous content
     // iterate through array and add as cards
     for (const item of array) {
