@@ -27,6 +27,7 @@ const tabAllTasks = document.querySelector('#allTasks');
 const tabToday = document.querySelector('#today');
 const tabNextWeek = document.querySelector('#nextWeek');
 const tabImportant = document.querySelector('#important');
+const body = document.querySelector('body');
 
 let activeArray = allTasks;
 
@@ -47,6 +48,7 @@ tabAllTasks.addEventListener('click', (e) => {
     refreshActive(e);
     activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
     changeTabs(e,activeArray);
+    addTask.style.display = 'block';
 })
 
 tabToday.addEventListener('click', (e) => {
@@ -55,6 +57,7 @@ tabToday.addEventListener('click', (e) => {
     refreshActive(e);
     activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
     changeTabs(e,activeArray);
+    addTask.style.display = 'none';
 })
 
 tabNextWeek.addEventListener('click', (e) => {
@@ -63,6 +66,7 @@ tabNextWeek.addEventListener('click', (e) => {
     refreshActive(e);
     activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
     changeTabs(e,activeArray);
+    addTask.style.display = 'none';
 })
 
 tabImportant.addEventListener('click', (e) => {
@@ -71,4 +75,11 @@ tabImportant.addEventListener('click', (e) => {
     refreshActive(e);
     activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
     changeTabs(e,activeArray);
+    addTask.style.display = 'none';
 });
+
+body.addEventListener('click', (e) => {
+    if (e.target && e.target.classList.contains('projectItem')) {
+        addTask.style.display = 'block';
+    }
+})
