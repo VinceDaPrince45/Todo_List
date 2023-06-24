@@ -73,12 +73,23 @@ export function createTaskForm() {
 
 export function moveToProjectForm(array) {
     let choices = document.createElement('div');
-    if (array.length == 0) {choices.textContent = 'No Projects Available'}
-    for (const item of array) {
-        let choice = document.createElement('div');
-        choice.classList.add('choice');
-        choice.textContent = item.name;
-        choices.appendChild(choice);
+    choices.id = 'form';
+    let instructions = document.createElement('div');
+    instructions.textContent = 'Choose a project to move task to';
+    instructions.style.cssText = 'font-weight:700';
+    choices.appendChild(instructions);
+    let warning = document.createElement('div');
+    warning.textContent = 'No Projects Available';
+    if (array.length == 0) {
+        choices.appendChild(warning)
+    } else {
+        for (const item of array) {
+            let choice = document.createElement('div');
+            choice.classList.add('choice');
+            choice.textContent = item.name;
+            choices.appendChild(choice);
+        }
     }
     choices.style.cssText = 'position:absolute;bottom:30px;background-color:white;border:1px solid black';
+    return choices;
 }

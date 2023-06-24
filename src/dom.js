@@ -299,7 +299,18 @@ export function moveIntoProject(e) {
     if (e.target && e.target.classList.contains('move')) {
         // open up div that uses absolute positioning above button
         // iterate through projectList to display options and addeventlisteners
-        e.target.appendChild(choices);
+        if (e.target.contains(document.getElementById('form'))) {
+            e.target.removeChild(document.getElementById('form'))
+        } else {
+            e.target.appendChild(moveToProjectForm(projectList));
+            let options = document.querySelectorAll('.choice');
+            let arrayOptions = Array.from(options);
+            for (const option of options) {
+                option.addEventListener('click', (e) => {
+                    console.log(arrayOptions.indexOf(e.target));
+                })
+            }
+        }
     }
 }
 

@@ -85,3 +85,7 @@ body {
 .projectItem:hover {
     background-color: grey;
 }
+
+.choice:hover {
+    background-color: grey;
+}
