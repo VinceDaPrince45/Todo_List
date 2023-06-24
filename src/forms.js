@@ -70,3 +70,15 @@ export function createTaskForm() {
     form.append(name,description,date,label,buttons);
     return form;
 }
+
+export function moveToProjectForm(array) {
+    let choices = document.createElement('div');
+    if (array.length == 0) {choices.textContent = 'No Projects Available'}
+    for (const item of array) {
+        let choice = document.createElement('div');
+        choice.classList.add('choice');
+        choice.textContent = item.name;
+        choices.appendChild(choice);
+    }
+    choices.style.cssText = 'position:absolute;bottom:30px;background-color:white;border:1px solid black';
+}

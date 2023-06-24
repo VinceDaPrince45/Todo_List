@@ -1,5 +1,5 @@
 import { projectObject, taskObject } from './project.js';
-import { createProjectForm, createTaskForm } from './forms.js';
+import { createProjectForm, createTaskForm, moveToProjectForm } from './forms.js';
 import { differenceInDays, isToday, format, parseISO } from 'date-fns';
 
 
@@ -221,8 +221,6 @@ export function checkActive() {
 }
 
 function displayActive(array) {
-    //  remove previous content
-    // iterate through array and add as cards
     for (const item of array) {
             let div = document.createElement('div');
             div.classList.add('card');
@@ -236,10 +234,21 @@ function displayActive(array) {
             if (item.priority == true) {
                 priority.textContent = 'important'
             } else {priority.textContent = 'not important'}
+            // buttons to customize tasks
+            let buttonsContainer = document.createElement('div');
             let deleteBtn = document.createElement('button');
             deleteBtn.textContent = 'X';
             deleteBtn.classList.add('delete');
-            div.append(name,description,date,priority,deleteBtn);
+            let editBtn = document.createElement('button');
+            editBtn.textContent = '...';
+            editBtn.classList.add('edit');
+            let moveBtn = document.createElement('button');
+            moveBtn.textContent = '>';
+            moveBtn.classList.add('move');
+            moveBtn.style.cssText = 'position:relative';
+            buttonsContainer.append(deleteBtn,editBtn,moveBtn);
+
+            div.append(name,description,date,priority,buttonsContainer);
             cards.appendChild(div);
     }
 }
@@ -257,35 +266,46 @@ function clearDisplay() {
 
 export function deleteItem(e) {
     if (e.target && e.target.classList.contains('delete')) {
-        console.log(e.target.parentNode);
-
         // remove in array
         let cardContainer = document.querySelectorAll('.card');
         let array = Array.from(cardContainer);
         for (const item of array) {
-            if (e.target.parentNode == item) {
+            if (e.target.parentNode.parentNode == item) {
                 let idx = array.indexOf(item);
                 let itemToRemove = checkActive()[idx];
-                console.log(allTasks);
                 removeItemFromArray(itemToRemove);
-                console.log(allTasks);
             }
         } 
         // remove DOM
-        cards.removeChild(e.target.parentNode);
-        
+        cards.removeChild(e.target.parentNode.parentNode);   
     }
 }
 
 function removeItemFromArray(item) {
     if (allTasks.includes(item)) {
         allTasks.splice(allTasks.indexOf(item),1)
-        console.log('deleted')
     }
     if (todayTasks.includes(item)) {todayTasks.splice(todayTasks.indexOf(item),1)}
     if (nextWeekTasks.includes(item)) {nextWeekTasks.splice(nextWeekTasks.indexOf(item),1)}
     if (importantTasks.includes(item)) {importantTasks.splice(importantTasks.indexOf(item),1)}
     for (const project of projectList) {
         if (project.tasks.includes(item)) {project.tasks.splice(project.tasks.indexOf(item),1)}
+    }
+}
+
+
+// move into project feature
+export function moveIntoProject(e) {
+    if (e.target && e.target.classList.contains('move')) {
+        // open up div that uses absolute positioning above button
+        // iterate through projectList to display options and addeventlisteners
+        e.target.appendChild(choices);
+    }
+}
+
+// edit feature
+function editItem() {
+    if (e.target && e.target.classList.contains('edit')) {
+
     }
 }
