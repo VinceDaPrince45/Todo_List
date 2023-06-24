@@ -1,6 +1,6 @@
 import { projectObject, taskObject } from './project.js';
 import { createProjectForm, createTaskForm } from './forms.js';
-import { isSameDay, isToday, isBefore, format } from 'date-fns';
+import { differenceInDays, isToday, format, parseISO } from 'date-fns';
 
 
 const projects = document.querySelector('.projects');
@@ -98,15 +98,21 @@ function addProjectListener(domArray) {
 
 // function to add task input values to allTask array
 
-function addToArray(list) {
+function addToArray() {
     let taskName = document.querySelector('.taskName');
     let taskDescription = document.querySelector('.taskDescription');
     let stringDate = document.querySelector('.taskDate').value + 'T00:00:00';
-    let formattedDate = new Date(stringDate.replace(/-/g, '\/').replace(/T.+/, ''))
-    let date = format(formattedDate, 'MMMM dd yyyy');
+    let date= new Date(stringDate.replace(/-/g, '\/').replace(/T.+/, ''))
+    let formattedDate = format(date, 'MMMM dd yyyy');
+    let today = new Date();
     let taskPriority = document.querySelector('.priority').checked;
-    let newTask = new taskObject(taskName.value,taskDescription.value,date,taskPriority);
-    list.push(newTask);
+    let newTask = new taskObject(taskName.value,taskDescription.value,formattedDate,taskPriority);
+    // screen
+    allTasks.push(newTask);
+    if (isToday(date)) {todayTasks.push(newTask)}
+    if ((differenceInDays(date,today) >= 0) && (differenceInDays(date,today) < 7)) {nextWeekTasks.push(newTask)}
+    if (taskPriority) {importantTasks.push(newTask)}
+    if (checkActive() !== allTasks) {checkActive().push(newTask)}
 }
 
 function checkInputs() {
@@ -127,12 +133,7 @@ export function evaluateTask(specificlist) {
             // check if all required inputs are present
             if (checkInputs()) {
                 // add input to database
-                if (checkActive() == allTasks) {
-                    addToArray(checkActive());
-                } else {
-                    addToArray(allTasks);
-                    addToArray(checkActive());
-                }
+                addToArray()
                 // update display
                 removeForm(content);
                 clearDisplay();
@@ -214,7 +215,6 @@ export function checkActive() {
     }
     for (const item of projectItems) {
         if (item.classList.contains('active')) {
-            console.log(activeProject);
             return activeProject;
         }
     }
