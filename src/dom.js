@@ -26,15 +26,20 @@ export function evaluateProject() {
         // access the button inside form and add event listener to submit
         let addProject = document.querySelector('.addProject');
         addProject.addEventListener('click', () => {
-            // add input to database
-            addToProjects();
-            // remove form
-            removeForm(projects);
-            // update list
-            let projectItems = document.querySelectorAll('.projectItem');
-            updateSidebar(referenceProject,projectItems);
-            projectItems = document.querySelectorAll('.projectItem');
-            addProjectListener(projectItems);
+            let projectName = document.querySelector('.projectName');
+            if (projectName.value !== '') {
+                // add input to database
+                addToProjects();
+                // remove form
+                removeForm(projects);
+                // update list
+                let projectItems = document.querySelectorAll('.projectItem');
+                updateSidebar(referenceProject,projectItems);
+                projectItems = document.querySelectorAll('.projectItem');
+                addProjectListener(projectItems);
+            } else {
+                projectName.style.cssText = 'border:2px solid red';
+            }
         })
         // access the cancel button inside form and delete form when pressed
         let cancelProject = document.querySelector('.cancelProject');
