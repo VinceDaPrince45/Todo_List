@@ -1,5 +1,7 @@
 import { projectObject, taskObject } from './project.js';
 import { createProjectForm, createTaskForm } from './forms.js';
+import { isSameDay, isToday, isBefore, format } from 'date-fns';
+
 
 const projects = document.querySelector('.projects');
 const referenceProject = document.querySelector('.buttonProject')
@@ -99,9 +101,11 @@ function addProjectListener(domArray) {
 function addToArray(list) {
     let taskName = document.querySelector('.taskName');
     let taskDescription = document.querySelector('.taskDescription');
-    let taskDate = document.querySelector('.taskDate');
+    let stringDate = document.querySelector('.taskDate').value + 'T00:00:00';
+    let formattedDate = new Date(stringDate.replace(/-/g, '\/').replace(/T.+/, ''))
+    let date = format(formattedDate, 'MMMM dd yyyy');
     let taskPriority = document.querySelector('.priority').checked;
-    let newTask = new taskObject(taskName.value,taskDescription.value,taskDate.value,taskPriority);
+    let newTask = new taskObject(taskName.value,taskDescription.value,date,taskPriority);
     list.push(newTask);
 }
 
@@ -109,7 +113,7 @@ function checkInputs() {
     let taskName = document.querySelector('.taskName');
     let taskDescription = document.querySelector('.taskDescription');
     let taskDate = document.querySelector('.taskDate');
-    let taskPriority = document.querySelector('.priority').checked;
+    let formattedDate = new Date(taskDate.value);
     if ((taskName.value !== '') && taskDescription.value !== '' && (taskDate.value !== '')) {
         return true; //move on with adding to array
     } else return false; //highlight missing inputs with red border
@@ -229,7 +233,9 @@ function displayActive(array) {
             let date = document.createElement('div');
             date.textContent = item.date;
             let priority = document.createElement('div');
-            priority.textContent = item.priority;
+            if (item.priority == true) {
+                priority.textContent = 'important'
+            } else {priority.textContent = 'not important'}
             div.append(name,description,date,priority);
             cards.appendChild(div);
     }
