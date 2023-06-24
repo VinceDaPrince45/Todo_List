@@ -97,26 +97,38 @@ function addToArray(list) {
     list.push(newTask);
 }
 
+function checkInputs() {
+    let taskName = document.querySelector('.taskName');
+    let taskDescription = document.querySelector('.taskDescription');
+    let taskDate = document.querySelector('.taskDate');
+    let taskPriority = document.querySelector('.priority').checked;
+    if ((taskName.value !== '') && taskDescription.value !== '' && (taskDate.value !== '')) {
+        return true; //move on with adding to array
+    } else return false; //highlight missing inputs with red border
+}
+
 export function evaluateTask(mainlist,specificlist) {
     if (!content.contains(document.querySelector('#form'))) {
-        // add form before button
         addForm(referenceTask,createTaskForm());
-        // access button inside form and add event listener to submit
         let addTask = document.querySelector('.addTask');
         addTask.addEventListener('click', () => {
-            // add input to database
-            if (mainlist == specificlist) {
-                addToArray(mainlist);
+            // check if all required inputs are present
+            if (checkInputs()) {
+                console.log('good')
+                // add input to database
+                if (mainlist == specificlist) {
+                    addToArray(mainlist);
+                } else {
+                    addToArray(mainlist);
+                    addToArray(specificlist);
+                }
+                // update display
+                removeForm(content);
+                clearDisplay();
+                displayActive(specificlist);
             } else {
-                addToArray(mainlist);
-                addToArray(specificlist);
+                console.log('input empty');
             }
-            // remove form
-            removeForm(content);
-            // update display
-            clearDisplay();
-            displayActive(specificlist);
-
         })
         // access cancel button inside form and delete when pressed
         let cancelTask = document.querySelector('.cancelTask');
