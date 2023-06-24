@@ -7,6 +7,8 @@ const content = document.querySelector('.content');
 const cards = document.querySelector('.cards');
 const referenceTask = document.querySelector('.buttonTasks');
 
+let activeProject;
+
 // PROJECTS
 
 export function evaluateProject(mainlist) {
@@ -114,7 +116,6 @@ export function evaluateTask(mainlist,specificlist) {
         addTask.addEventListener('click', () => {
             // check if all required inputs are present
             if (checkInputs()) {
-                console.log('good')
                 // add input to database
                 if (mainlist == specificlist) {
                     addToArray(mainlist);
