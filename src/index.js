@@ -15,11 +15,6 @@ import { evaluateProject, evaluateTask, changeHeader, refreshActive, checkActive
 
 // for each tab add dom changes like for restaurant page
 
-const projectList = [];
-const allTasks = [];
-const todayTasks = [];
-const nextWeekTasks = [];
-const importantTasks = [];
 
 const addProject = document.querySelector('.buttonProject');
 const addTask = document.querySelector('.buttonTasks');
@@ -33,20 +28,20 @@ let activeArray = allTasks;
 
 addTask.addEventListener('click', () => {
     // add task to array
-    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
-    evaluateTask(allTasks,activeArray);
+    activeArray = checkActive();
+    evaluateTask(activeArray);
     // display array based on which tab is active
 });
 
 addProject.addEventListener('click', () => {
-    evaluateProject(projectList);
+    evaluateProject();
 });
 
 tabAllTasks.addEventListener('click', (e) => {
     // function
     changeHeader('All Tasks');
     refreshActive(e);
-    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
+    activeArray = checkActive();
     changeTabs(e,activeArray);
     addTask.style.display = 'block';
 })
@@ -55,7 +50,7 @@ tabToday.addEventListener('click', (e) => {
     // function
     changeHeader('Today');
     refreshActive(e);
-    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
+    activeArray = checkActive();
     changeTabs(e,activeArray);
     addTask.style.display = 'none';
 })
@@ -64,7 +59,7 @@ tabNextWeek.addEventListener('click', (e) => {
     // function
     changeHeader('Next 7 Days');
     refreshActive(e);
-    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
+    activeArray = checkActive();
     changeTabs(e,activeArray);
     addTask.style.display = 'none';
 })
@@ -73,7 +68,7 @@ tabImportant.addEventListener('click', (e) => {
     // function
     changeHeader('Important');
     refreshActive(e);
-    activeArray = checkActive(allTasks,todayTasks,nextWeekTasks,importantTasks);
+    activeArray = checkActive();
     changeTabs(e,activeArray);
     addTask.style.display = 'none';
 });

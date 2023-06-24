@@ -7,11 +7,17 @@ const content = document.querySelector('.content');
 const cards = document.querySelector('.cards');
 const referenceTask = document.querySelector('.buttonTasks');
 
+const projectList = [];
+const allTasks = [];
+const todayTasks = [];
+const nextWeekTasks = [];
+const importantTasks = [];
+
 let activeProject;
 
 // PROJECTS
 
-export function evaluateProject(mainlist) {
+export function evaluateProject() {
     if (!projects.contains(document.querySelector('#form'))) {
         // add form before the button
         addForm(referenceProject,createProjectForm());
@@ -19,14 +25,14 @@ export function evaluateProject(mainlist) {
         let addProject = document.querySelector('.addProject');
         addProject.addEventListener('click', () => {
             // add input to database
-            addToProjects(mainlist);
+            addToProjects();
             // remove form
             removeForm(projects);
             // update list
             let projectItems = document.querySelectorAll('.projectItem');
-            updateSidebar(referenceProject,projectItems,mainlist);
+            updateSidebar(referenceProject,projectItems);
             projectItems = document.querySelectorAll('.projectItem');
-            addProjectListener(projectItems,mainlist);
+            addProjectListener(projectItems);
         })
         // access the cancel button inside form and delete form when pressed
         let cancelProject = document.querySelector('.cancelProject');
@@ -48,20 +54,19 @@ function removeForm(parent) {
 
 // function to add inputs to data array
 
-function addToProjects(mainlist) {
+function addToProjects() {
     let projectName = document.querySelector('.projectName');
     let newProject = new projectObject(projectName.value);
-    mainlist.push(newProject);
+    projectList.push(newProject);
 }
 
 // function to update names on sidebar
 
-function updateSidebar(referencepoint,mainitems,mainlist) {
-    // delete all alements and readd name of projects from array to sidebar
+function updateSidebar(referencepoint,mainitems) {
     for (const item of mainitems) {
         projects.removeChild(item);
     }
-    for (const item of mainlist) {
+    for (const item of projectList) {
         let div = document.createElement('div');
         div.classList.add('projectItem');
         div.textContent = item.name;
@@ -71,20 +76,21 @@ function updateSidebar(referencepoint,mainitems,mainlist) {
 
 // need to add event listener to each project
 
-function addProjectListener(domArray,mainlist) {
+function addProjectListener(domArray) {
     let arr = Array.from(domArray);
     for (const item of arr) {
         item.addEventListener('click', (event) => {
             changeHeader(item.textContent);
             refreshActive(event)
-            activeProject = mainlist[arr.indexOf(item)].tasks;
-            console.log(activeProject);
+            activeProject = projectList[arr.indexOf(item)].tasks;
             clearDisplay();
             displayActive(activeProject);
+            if (content.contains(document.querySelector('#form'))) {
+                removeForm(content);
+            }
         })
     }
 }
-
 
 // TASKS
 
@@ -109,7 +115,7 @@ function checkInputs() {
     } else return false; //highlight missing inputs with red border
 }
 
-export function evaluateTask(mainlist,specificlist) {
+export function evaluateTask(specificlist) {
     if (!content.contains(document.querySelector('#form'))) {
         addForm(referenceTask,createTaskForm());
         let addTask = document.querySelector('.addTask');
@@ -117,16 +123,16 @@ export function evaluateTask(mainlist,specificlist) {
             // check if all required inputs are present
             if (checkInputs()) {
                 // add input to database
-                if (mainlist == specificlist) {
-                    addToArray(mainlist);
+                if (checkActive() == allTasks) {
+                    addToArray(checkActive());
                 } else {
-                    addToArray(mainlist);
-                    addToArray(specificlist);
+                    addToArray(allTasks);
+                    addToArray(checkActive());
                 }
                 // update display
                 removeForm(content);
                 clearDisplay();
-                displayActive(specificlist);
+                displayActive(specificlist); // need to add parameter
             } else {
                 let taskName = document.querySelector('.taskName');
                 let taskDescription = document.querySelector('.taskDescription');
@@ -161,6 +167,9 @@ export function changeTabs(event,mainlist) {
         clearDisplay();
         // if event.target id is all tasks,iterate through mainlist and display each property of task
         displayActive(mainlist);
+        if (content.contains(document.querySelector('#form'))) {
+            removeForm(content);
+        }
     }
 }
 
@@ -182,20 +191,20 @@ export function refreshActive(event) {
 
 // function takes in arrays from main js file and returns the one thats needed after checking active tab
 
-export function checkActive(arrayOne,arrayTwo,arrayThree,arrayFour) {
+export function checkActive() {
     let tabs = document.querySelectorAll('.hometab');
     let projectItems = document.querySelectorAll('.projectItem');
     for (const tab of tabs) {
         if (tab.classList.contains('active')) {
             switch (tab.getAttribute('id')) {
                 case 'allTasks':
-                    return arrayOne;
+                    return allTasks;
                 case 'today' :
-                    return arrayTwo;
+                    return todayTasks;
                 case 'nextWeek':
-                    return arrayThree;
+                    return nextWeekTasks;
                 case 'important':
-                    return arrayFour;
+                    return importantTasks;
             }
         }
     }
