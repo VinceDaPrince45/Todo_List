@@ -264,16 +264,28 @@ export function deleteItem(e) {
         let array = Array.from(cardContainer);
         for (const item of array) {
             if (e.target.parentNode == item) {
-                console.log(array.indexOf(item));
+                let idx = array.indexOf(item);
+                let itemToRemove = checkActive()[idx];
+                console.log(allTasks);
+                removeItemFromArray(itemToRemove);
+                console.log(allTasks);
             }
         } 
-
-        // // remove DOM
-        // cards.removeChild(e.target.parentNode);
+        // remove DOM
+        cards.removeChild(e.target.parentNode);
         
     }
 }
 
-function removeItemFromArray() {
-
+function removeItemFromArray(item) {
+    if (allTasks.includes(item)) {
+        allTasks.splice(allTasks.indexOf(item),1)
+        console.log('deleted')
+    }
+    if (todayTasks.includes(item)) {todayTasks.splice(todayTasks.indexOf(item),1)}
+    if (nextWeekTasks.includes(item)) {nextWeekTasks.splice(nextWeekTasks.indexOf(item),1)}
+    if (importantTasks.includes(item)) {importantTasks.splice(importantTasks.indexOf(item),1)}
+    for (const project of projectList) {
+        if (project.tasks.includes(item)) {project.tasks.splice(project.tasks.indexOf(item),1)}
+    }
 }
