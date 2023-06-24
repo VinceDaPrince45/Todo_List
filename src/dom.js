@@ -236,7 +236,10 @@ function displayActive(array) {
             if (item.priority == true) {
                 priority.textContent = 'important'
             } else {priority.textContent = 'not important'}
-            div.append(name,description,date,priority);
+            let deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'X';
+            deleteBtn.classList.add('delete');
+            div.append(name,description,date,priority,deleteBtn);
             cards.appendChild(div);
     }
 }
