@@ -247,8 +247,33 @@ function displayActive(array) {
 // remove previous content
 
 function clearDisplay() {
-    let singleCards = document.querySelectorAll('.card');
-    for (const card of singleCards) {
+    let cardContainer = document.querySelectorAll('.card');
+    for (const card of cardContainer) {
         cards.removeChild(card);
     }
+}
+
+// delete item
+
+export function deleteItem(e) {
+    if (e.target && e.target.classList.contains('delete')) {
+        console.log(e.target.parentNode);
+
+        // remove in array
+        let cardContainer = document.querySelectorAll('.card');
+        let array = Array.from(cardContainer);
+        for (const item of array) {
+            if (e.target.parentNode == item) {
+                console.log(array.indexOf(item));
+            }
+        } 
+
+        // // remove DOM
+        // cards.removeChild(e.target.parentNode);
+        
+    }
+}
+
+function removeItemFromArray() {
+
 }

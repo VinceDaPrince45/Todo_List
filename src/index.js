@@ -1,5 +1,5 @@
 import './style.css';
-import { evaluateProject, evaluateTask, changeHeader, refreshActive, checkActive, changeTabs } from './dom';
+import { evaluateProject, evaluateTask, changeHeader, refreshActive, checkActive, changeTabs, deleteItem } from './dom';
 
 // add project button appends to an empty array/object
 
@@ -77,4 +77,5 @@ body.addEventListener('click', (e) => {
     if (e.target && e.target.classList.contains('projectItem')) {
         addTask.style.display = 'block';
     }
+    deleteItem(e);
 })
