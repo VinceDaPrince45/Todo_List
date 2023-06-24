@@ -127,7 +127,18 @@ export function evaluateTask(mainlist,specificlist) {
                 clearDisplay();
                 displayActive(specificlist);
             } else {
-                console.log('input empty');
+                let taskName = document.querySelector('.taskName');
+                let taskDescription = document.querySelector('.taskDescription');
+                let taskDate = document.querySelector('.taskDate');
+                if (taskName.value == '') {
+                    taskName.style.cssText = 'border:solid red';
+                }
+                if (taskDescription.value == '') {
+                    taskDescription.style.cssText = 'border:solid red';
+                }
+                if (taskDate.value == '') {
+                    taskDate.style.cssText = 'border:solid red';
+                }
             }
         })
         // access cancel button inside form and delete when pressed
