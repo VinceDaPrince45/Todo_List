@@ -8,6 +8,7 @@ const referenceProject = document.querySelector('.buttonProject')
 const content = document.querySelector('.content');
 const cards = document.querySelector('.cards');
 const referenceTask = document.querySelector('.buttonTasks');
+const container = document.querySelector('.container');
 
 const projectList = [];
 const allTasks = [];
@@ -132,7 +133,7 @@ function checkInputs() {
 
 export function evaluateTask(specificlist) {
     if (!content.contains(document.querySelector('#form'))) {
-        addForm(referenceTask,createTaskForm());
+        addForm(referenceTask,createTaskForm(false));
         let addTask = document.querySelector('.addTask');
         addTask.addEventListener('click', () => {
             // check if all required inputs are present
@@ -327,8 +328,26 @@ export function moveIntoProject(e) {
 }
 
 // edit feature
-function editItem() {
+export function editItem(e) {
     if (e.target && e.target.classList.contains('edit')) {
-
+        // create in the middle and blur out surrounding/pressing outside form exits form and does not change cards
+        container.appendChild(createTaskForm(true));
+        container.addEventListener('click', (e) => {
+            onClickOutside(e)
+        })
     }
+}
+
+function onClickOutside(e) {
+    let form = document.querySelector('#form');
+    if (!form.contains(e.target)) {
+        container.removeChild(form);
+        container.removeEventListener('click', (e) => {
+            onClickOutside(e)
+        })
+    }
+}
+
+function updateItem() {
+
 }

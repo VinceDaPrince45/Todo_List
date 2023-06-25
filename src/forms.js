@@ -22,7 +22,7 @@ export function createProjectForm() {
     return form;
 }
 
-export function createTaskForm() {
+export function createTaskForm(boolean) {
     let form = document.createElement('div');
     form.setAttribute('id','form');
     
@@ -64,8 +64,12 @@ export function createTaskForm() {
     cancel.textContent = 'cancel';
     buttons.append(add,cancel);
     buttons.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:1em';
-
-    form.style.cssText = 'display:grid;grid-template-rows:repeat(auto-fit,1fr);gap:1em;justify-content:center';
+    
+    if (boolean) {
+        form.style.cssText = 'display:grid;grid-template-rows:repeat(auto-fit,1fr);gap:1em;justify-content:center;position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto;height:40%;width:50%;background-color:white;padding:1em;';
+    } else {
+        form.style.cssText = 'display:grid;grid-template-rows:repeat(auto-fit,1fr);gap:1em;justify-content:center';
+    }
 
     form.append(name,description,date,label,buttons);
     return form;
@@ -92,4 +96,8 @@ export function moveToProjectForm(array) {
     }
     choices.style.cssText = 'position:absolute;bottom:30px;background-color:white;border:1px solid black';
     return choices;
+}
+
+export function editTask() {
+    
 }

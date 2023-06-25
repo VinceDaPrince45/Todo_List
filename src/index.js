@@ -1,5 +1,5 @@
 import './style.css';
-import { evaluateProject, evaluateTask, changeHeader, refreshActive, checkActive, changeTabs, deleteItem, moveIntoProject } from './dom';
+import { evaluateProject, evaluateTask, changeHeader, refreshActive, checkActive, changeTabs, deleteItem, moveIntoProject, editItem } from './dom';
 
 // add project button appends to an empty array/object
 
@@ -79,5 +79,5 @@ body.addEventListener('click', (e) => {
     }
     deleteItem(e);
     moveIntoProject(e);
-    // editItem(e);
+    editItem(e);
 })
