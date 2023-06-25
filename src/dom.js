@@ -330,16 +330,15 @@ export function moveIntoProject(e) {
 // edit feature
 export function editItem(e) {
     if (e.target && e.target.classList.contains('edit')) {
+        task = returnTask(e);
         // create in the middle and blur out surrounding/pressing outside form exits form and does not change cards
         container.appendChild(createTaskForm(true));
-        fillPreviousData()
+        // fillPreviousData()
         container.addEventListener('click', onClickOutside);
         let addBtn = document.querySelector('#form > .addTask');
-        addBtn.addEventListener('click', () => {
-
-        })
+        // addBtn.addEventListener('click', )
         let cancelBtn = document.querySelector('#form > .cancelTask');
-        cancelBtn.addEventListener('click',)
+        // cancelBtn.addEventListener('click',)
     }
 }
 
@@ -356,7 +355,16 @@ function fillPreviousData(name,description,date,priority) {
     let taskDescription = document.querySelector('.taskDescription');
     let taskDate = document.querySelector('.taskDate');
     let taskPriority = document.querySelector('.priority');
+}
 
+function returnTask(e) {
+    let individualCards = document.querySelectorAll('.card');
+    let arrayCards = Array.from(individualCards);
+    let card = e.target.parentNode.parentNode
+    if (arrayCards.includes(card)) {
+        let activeArrayIdx = arrayCards.indexOf(card);
+        return checkActive()[activeArrayIdx];
+    }
 }
 
 function updateItem() {
