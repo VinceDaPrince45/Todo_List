@@ -332,19 +332,15 @@ export function editItem(e) {
     if (e.target && e.target.classList.contains('edit')) {
         // create in the middle and blur out surrounding/pressing outside form exits form and does not change cards
         container.appendChild(createTaskForm(true));
-        container.addEventListener('click', (e) => {
-            onClickOutside(e)
-        })
+        container.addEventListener('click', foo)
     }
 }
 
-function onClickOutside(e) {
-    let form = document.querySelector('#form');
-    if (!form.contains(e.target)) {
+function foo(event) {
+    let form = document.querySelector('.container > #form');
+    if (!form.contains(event.target)) {
         container.removeChild(form);
-        container.removeEventListener('click', (e) => {
-            onClickOutside(e)
-        })
+        container.removeEventListener('click', foo)
     }
 }
 
