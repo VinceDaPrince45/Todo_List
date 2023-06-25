@@ -332,16 +332,31 @@ export function editItem(e) {
     if (e.target && e.target.classList.contains('edit')) {
         // create in the middle and blur out surrounding/pressing outside form exits form and does not change cards
         container.appendChild(createTaskForm(true));
-        container.addEventListener('click', foo)
+        fillPreviousData()
+        container.addEventListener('click', onClickOutside);
+        let addBtn = document.querySelector('#form > .addTask');
+        addBtn.addEventListener('click', () => {
+
+        })
+        let cancelBtn = document.querySelector('#form > .cancelTask');
+        cancelBtn.addEventListener('click',)
     }
 }
 
-function foo(event) {
+function onClickOutside(event) {
     let form = document.querySelector('.container > #form');
     if (!form.contains(event.target)) {
         container.removeChild(form);
-        container.removeEventListener('click', foo)
+        container.removeEventListener('click', onClickOutside)
     }
+}
+
+function fillPreviousData(name,description,date,priority) {
+    let taskName = document.querySelector('.taskName');
+    let taskDescription = document.querySelector('.taskDescription');
+    let taskDate = document.querySelector('.taskDate');
+    let taskPriority = document.querySelector('.priority');
+
 }
 
 function updateItem() {
