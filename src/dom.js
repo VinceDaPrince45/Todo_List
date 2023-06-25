@@ -312,7 +312,14 @@ export function moveIntoProject(e) {
             let arrayOptions = Array.from(options);
             for (const option of options) {
                 option.addEventListener('click', (e) => {
-                    console.log(arrayOptions.indexOf(e.target));
+                    let projectIdx = arrayOptions.indexOf(e.target); 
+                    let individualCards = document.querySelectorAll('.card');
+                    let arrayCards = Array.from(individualCards);
+                    let arrayIdx = arrayCards.indexOf(e.target.parentNode.parentNode.parentNode.parentNode)
+                    let task = checkActive()[arrayIdx]; 
+                    projectList[projectIdx].tasks.push(task);
+                    let moveBtn = document.querySelector('.move');
+                    e.target.parentNode.parentNode.removeChild(document.querySelector('.move > #form'))
                 })
             }
         }

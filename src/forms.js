@@ -29,7 +29,7 @@ export function createTaskForm() {
     let name = document.createElement('input');
     name.type = 'text';
     name.classList.add('taskName');
-    name.placeholder = 'Enter task name';
+    name.placeholder = 'Enter task name';form
 
     let description = document.createElement('input');
     description.type = 'text';
