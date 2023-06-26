@@ -233,6 +233,8 @@ function displayActive(array) {
             // create status
             let status = document.createElement('input');
             status.type = 'checkbox';
+            status.classList.add('status');
+            if (item.status) {status.checked = true};
             let name = document.createElement('div');
             name.textContent = item.name;
             let description = document.createElement('div');
@@ -380,7 +382,12 @@ function fillPreviousData(name,description,date,priority) {
 function returnTask(e) {
     let individualCards = document.querySelectorAll('.card');
     let arrayCards = Array.from(individualCards);
-    let card = e.target.parentNode.parentNode
+    let card;
+    if (e.target.classList.contains('edit')) {
+        card = e.target.parentNode.parentNode;
+    } else if (e.target.classList.contains('status')) {
+        card = e.target.parentNode;
+    }
     if (arrayCards.includes(card)) {
         let activeArrayIdx = arrayCards.indexOf(card);
         return checkActive()[activeArrayIdx];
@@ -435,7 +442,27 @@ function updateItem(task) {
     displayActive(checkActive());
 }
 
-function toggleTask() {
-    // when pressing it, checkmark and fade out the card, only allow the checkbox to be pressed
+export function toggleTask(e) {
+    // when pressing it, checkmark and fade out the card
+    if (e.target.classList.contains('status')) {
+        // check status of checkbox
+        let task;
+        // console.log(e.target.parentNode)
+        if (document.querySelector('.status').checked == true) {
+            task = returnTask(e);
+            task.status = document.querySelector('.status').checked;
+            e.target.classList.add('dim');
+        } else {
+            task = returnTask(e);
+            task.status = document.querySelector('.status').checked;
+            e.target.classList.remove('dim');
+        }
+    }
     // when pressed again, card returns to normal
+
+    // when e.target.classList.contains('status')
+        // target that task, change item.status to the opposite of what it was originally
+        // if status.checked = true, have the left border change color to green
+        // original left border color will be something neutral
+        // splice into all tasks and change that task
 }
