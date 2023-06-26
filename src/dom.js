@@ -112,7 +112,8 @@ function addToArray() {
     let date= new Date(stringDate.replace(/-/g, '\/').replace(/T.+/, ''))
     let today = new Date();
     let taskPriority = document.querySelector('.priority').checked;
-    let newTask = new taskObject(taskName.value,taskDescription.value,originalDate,taskPriority);
+    let taskStatus = false;
+    let newTask = new taskObject(taskName.value,taskDescription.value,originalDate,taskPriority,taskStatus);
     // screen
     allTasks.push(newTask);
     if (isToday(date)) {todayTasks.push(newTask)}
@@ -229,6 +230,9 @@ function displayActive(array) {
     for (const item of array) {
             let div = document.createElement('div');
             div.classList.add('card');
+            // create status
+            let status = document.createElement('input');
+            status.type = 'checkbox';
             let name = document.createElement('div');
             name.textContent = item.name;
             let description = document.createElement('div');
@@ -257,7 +261,7 @@ function displayActive(array) {
             moveBtn.style.cssText = 'position:relative';
             buttonsContainer.append(deleteBtn,editBtn,moveBtn);
 
-            div.append(name,description,date,priority,buttonsContainer);
+            div.append(status,name,description,date,priority,buttonsContainer);
             cards.appendChild(div);
     }
 }
@@ -429,4 +433,9 @@ function updateItem(task) {
     // if doesnt include task but passes screening, push
     clearDisplay();
     displayActive(checkActive());
+}
+
+function toggleTask() {
+    // when pressing it, checkmark and fade out the card, only allow the checkbox to be pressed
+    // when pressed again, card returns to normal
 }
