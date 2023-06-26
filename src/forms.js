@@ -79,7 +79,7 @@ export function moveToProjectForm(array) {
     let choices = document.createElement('div');
     choices.id = 'form';
     let instructions = document.createElement('div');
-    instructions.textContent = 'Choose a project to move task to';
+    instructions.textContent = 'Choose a project to copy task to';
     instructions.style.cssText = 'font-weight:700';
     choices.appendChild(instructions);
     let warning = document.createElement('div');

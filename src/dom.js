@@ -338,10 +338,17 @@ export function editItem(e) {
         container.appendChild(createTaskForm(true));
         fillPreviousData(task.name,task.description,task.date,task.priority)
         container.addEventListener('click', onClickOutside);
-        let addBtn = document.querySelector('#form > .addTask');
-        // addBtn.addEventListener('click', )
-        let cancelBtn = document.querySelector('#form > .cancelTask');
-        // cancelBtn.addEventListener('click',)
+        let addBtn = document.querySelector('.addTask');
+        addBtn.addEventListener('click', () => {
+            updateItem(task);
+            container.removeChild(document.querySelector('.container > #form'));
+            container.removeEventListener('click', onClickOutside);
+        })
+        let cancelBtn = document.querySelector('.cancelTask');
+        cancelBtn.addEventListener('click', () => {
+            container.removeChild(document.querySelector('.container > #form'));
+            container.removeEventListener('click', onClickOutside);
+        })
     }
 }
 
@@ -349,7 +356,7 @@ function onClickOutside(event) {
     let form = document.querySelector('.container > #form');
     if (!form.contains(event.target)) {
         container.removeChild(form);
-        container.removeEventListener('click', onClickOutside)
+        container.removeEventListener('click', onClickOutside);
     }
 }
 
@@ -376,6 +383,50 @@ function returnTask(e) {
     }
 }
 
-function updateItem() {
-
+function updateItem(task) {
+    let taskName = document.querySelector('.taskName');
+    let taskDescription = document.querySelector('.taskDescription');
+    let originalDate = document.querySelector('.taskDate').value; // change
+    let stringDate = originalDate + 'T00:00:00';
+    let date = new Date(stringDate.replace(/-/g, '\/').replace(/T.+/, ''))
+    let today = new Date();
+    let taskPriority = document.querySelector('.priority').checked;
+    let newTask = new taskObject(taskName.value,taskDescription.value,originalDate,taskPriority);
+    // in allTasks, splice in and replace w/ new task
+    allTasks.splice(allTasks.indexOf(task),1,newTask);
+    // for everything else, if it includes original task but new values dont pass screening, remove from task
+    // if everything else does include task and new values pass screening, splice w/ new task
+    // screen
+    if (todayTasks.includes(task)) {
+        if (isToday(date)) {
+            todayTasks.splice(todayTasks.indexOf(task),1,newTask);
+        } else {todayTasks.splice(todayTasks.indexOf(task),1)}
+    } else {
+        if (isToday(date)) {todayTasks.push(newTask)}
+    }
+    if (nextWeekTasks.includes(task)) {
+        if ((differenceInDays(date,today) >= 0) && (differenceInDays(date,today) < 7)) {
+            nextWeekTasks.splice(nextWeekTasks.indexOf(task),1,newTask);
+        } else {nextWeekTasks.splice(nextWeekTasks.indexOf(task),1)}
+    } else {
+        if ((differenceInDays(date,today) >= 0) && (differenceInDays(date,today) < 7)) {
+            nextWeekTasks.push(newTask);
+        }
+    }
+    if (importantTasks.includes(task)) {
+        if (taskPriority) {
+            importantTasks.splice(importantTasks.indexOf(task),1,newTask);
+        } else {importantTasks.splice(importantTasks.indexOf(task),1);
+        }
+    } else {
+        if (taskPriority) {importantTasks.push(newTask)};
+    }
+    for (const project of projectList) {
+        if (project.tasks.includes(task)) {
+            project.tasks.splice(project.tasks.indexOf(task),1,newTask);
+        }
+    }
+    // if doesnt include task but passes screening, push
+    clearDisplay();
+    displayActive(checkActive());
 }
