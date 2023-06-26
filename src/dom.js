@@ -1,6 +1,6 @@
 import { projectObject, taskObject } from './project.js';
 import { createProjectForm, createTaskForm, moveToProjectForm } from './forms.js';
-import { differenceInDays, isToday, format, parseISO } from 'date-fns';
+import { differenceInDays, isToday, format, parse } from 'date-fns';
 
 
 const projects = document.querySelector('.projects');
@@ -107,12 +107,12 @@ function addProjectListener(domArray) {
 function addToArray() {
     let taskName = document.querySelector('.taskName');
     let taskDescription = document.querySelector('.taskDescription');
-    let stringDate = document.querySelector('.taskDate').value + 'T00:00:00';
+    let originalDate = document.querySelector('.taskDate').value; // change
+    let stringDate = originalDate + 'T00:00:00';
     let date= new Date(stringDate.replace(/-/g, '\/').replace(/T.+/, ''))
-    let formattedDate = format(date, 'MMMM dd yyyy');
     let today = new Date();
     let taskPriority = document.querySelector('.priority').checked;
-    let newTask = new taskObject(taskName.value,taskDescription.value,formattedDate,taskPriority);
+    let newTask = new taskObject(taskName.value,taskDescription.value,originalDate,taskPriority);
     // screen
     allTasks.push(newTask);
     if (isToday(date)) {todayTasks.push(newTask)}
@@ -125,7 +125,6 @@ function checkInputs() {
     let taskName = document.querySelector('.taskName');
     let taskDescription = document.querySelector('.taskDescription');
     let taskDate = document.querySelector('.taskDate');
-    let formattedDate = new Date(taskDate.value);
     if ((taskName.value !== '') && taskDescription.value !== '' && (taskDate.value !== '')) {
         return true; //move on with adding to array
     } else return false; //highlight missing inputs with red border
@@ -235,7 +234,11 @@ function displayActive(array) {
             let description = document.createElement('div');
             description.textContent = item.description;
             let date = document.createElement('div');
-            date.textContent = item.date;
+            let originalDate = item.date;
+            let stringDate = originalDate + 'T00:00:00';
+            let newDate= new Date(stringDate.replace(/-/g, '\/').replace(/T.+/, ''))
+            let formattedDate = format(newDate, 'MMMM dd yyyy');
+            date.textContent = formattedDate;
             let priority = document.createElement('div');
             if (item.priority == true) {
                 priority.textContent = 'important'
@@ -330,10 +333,10 @@ export function moveIntoProject(e) {
 // edit feature
 export function editItem(e) {
     if (e.target && e.target.classList.contains('edit')) {
-        task = returnTask(e);
+        let task = returnTask(e);
         // create in the middle and blur out surrounding/pressing outside form exits form and does not change cards
         container.appendChild(createTaskForm(true));
-        // fillPreviousData()
+        fillPreviousData(task.name,task.description,task.date,task.priority)
         container.addEventListener('click', onClickOutside);
         let addBtn = document.querySelector('#form > .addTask');
         // addBtn.addEventListener('click', )
@@ -355,6 +358,12 @@ function fillPreviousData(name,description,date,priority) {
     let taskDescription = document.querySelector('.taskDescription');
     let taskDate = document.querySelector('.taskDate');
     let taskPriority = document.querySelector('.priority');
+    taskName.value = name;
+    taskDescription.value = description;
+    taskDate.value = date;
+    if (priority) {
+        taskPriority.checked = true;
+    } else {taskPriority.checked = false}
 }
 
 function returnTask(e) {
