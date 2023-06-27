@@ -1,6 +1,6 @@
 import { projectObject, taskObject } from './project.js';
 import { createProjectForm, createTaskForm, moveToProjectForm } from './forms.js';
-import { differenceInDays, isToday, format, parse } from 'date-fns';
+import { differenceInDays, isToday, format } from 'date-fns';
 
 
 const projects = document.querySelector('.projects');
@@ -10,11 +10,26 @@ const cards = document.querySelector('.cards');
 const referenceTask = document.querySelector('.buttonTasks');
 const container = document.querySelector('.container');
 
-const projectList = [];
-const allTasks = [];
-const todayTasks = [];
-const nextWeekTasks = [];
-const importantTasks = [];
+let projectList;
+let allTasks;
+let todayTasks;
+let nextWeekTasks;
+let importantTasks;
+
+if (localStorage.getItem('allTasks') || localStorage.getItem('projectList')) {
+    projectList = JSON.parse(localStorage.getItem('projectList'));
+    allTasks = JSON.parse(localStorage.getItem('allTasks'));
+    todayTasks = JSON.parse(localStorage.getItem('todayTasks'));
+    nextWeekTasks = JSON.parse(localStorage.getItem('nextWeekTasks'));
+    importantTasks = JSON.parse(localStorage.getItem('importantTasks'));
+    onStart();
+  } else {
+    projectList = [];
+    allTasks = [];
+    todayTasks = [];
+    nextWeekTasks = [];
+    importantTasks = [];
+  }
 
 let activeProject;
 
@@ -66,6 +81,7 @@ function addToProjects() {
     let projectName = document.querySelector('.projectName');
     let newProject = new projectObject(projectName.value);
     projectList.push(newProject);
+    setStorage();
 }
 
 // function to update names on sidebar
@@ -120,6 +136,7 @@ function addToArray() {
     if ((differenceInDays(date,today) >= 0) && (differenceInDays(date,today) < 7)) {nextWeekTasks.push(newTask)}
     if (taskPriority) {importantTasks.push(newTask)}
     if (checkActive() !== allTasks) {checkActive().push(newTask)}
+    setStorage();
 }
 
 function checkInputs() {
@@ -292,7 +309,8 @@ export function deleteItem(e) {
             }
         } 
         // remove DOM
-        cards.removeChild(e.target.parentNode.parentNode);   
+        cards.removeChild(e.target.parentNode.parentNode);  
+        setStorage(); 
     }
 }
 
@@ -328,11 +346,11 @@ export function moveIntoProject(e) {
                     let arrayIdx = arrayCards.indexOf(e.target.parentNode.parentNode.parentNode.parentNode)
                     let task = checkActive()[arrayIdx]; 
                     projectList[projectIdx].tasks.push(task);
-                    let moveBtn = document.querySelector('.move');
                     e.target.parentNode.parentNode.removeChild(document.querySelector('.move > #form'))
                 })
             }
         }
+        setStorage();
     }
 }
 
@@ -355,6 +373,7 @@ export function editItem(e) {
             container.removeChild(document.querySelector('.container > #form'));
             container.removeEventListener('click', onClickOutside);
         })
+        setStorage();
     }
 }
 
@@ -457,6 +476,7 @@ export function toggleTask(e) {
             task.status = document.querySelector('.status').checked;
             e.target.classList.remove('dim');
         }
+        setStorage();
     }
     // when pressed again, card returns to normal
 
@@ -465,4 +485,50 @@ export function toggleTask(e) {
         // if status.checked = true, have the left border change color to green
         // original left border color will be something neutral
         // splice into all tasks and change that task
+}
+
+function storageAvailable(type) {
+  let storage;
+  try {
+    storage = window[type];
+    const x = "__storage_test__";
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      // everything except Firefox
+      (e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === "QuotaExceededError" ||
+        // Firefox
+        e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      storage &&
+      storage.length !== 0
+    );
+  }
+}
+
+function setStorage() {
+    localStorage.clear();
+    localStorage.setItem('projectList',JSON.stringify(projectList));
+    localStorage.setItem('allTasks',JSON.stringify(allTasks));
+    localStorage.setItem('todayTasks',JSON.stringify(todayTasks));
+    localStorage.setItem('nextWeekTasks',JSON.stringify(nextWeekTasks));
+    localStorage.setItem('importantTasks',JSON.stringify(importantTasks));
+}
+
+function onStart() {
+    for (const project of projectList) {
+        let div = document.createElement('div');
+        div.classList.add('projectItem');
+        div.textContent = project.name;
+        document.querySelector('.buttonProject').before(div);
+    }
+    displayActive(checkActive());
 }
