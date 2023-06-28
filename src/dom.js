@@ -251,7 +251,10 @@ function displayActive(array) {
             let status = document.createElement('input');
             status.type = 'checkbox';
             status.classList.add('status');
-            if (item.status) {status.checked = true};
+            if (item.status) {
+                status.checked = true;
+                div.classList.add('dim');
+            };
             let name = document.createElement('div');
             name.textContent = item.name;
             let description = document.createElement('div');
@@ -279,6 +282,7 @@ function displayActive(array) {
             moveBtn.classList.add('move');
             moveBtn.style.cssText = 'position:relative';
             buttonsContainer.append(deleteBtn,editBtn,moveBtn);
+            buttonsContainer.style.cssText = 'display:flex;gap:1em;justify-content:center';
 
             div.append(status,name,description,date,priority,buttonsContainer);
             cards.appendChild(div);
@@ -470,11 +474,11 @@ export function toggleTask(e) {
         if (document.querySelector('.status').checked == true) {
             task = returnTask(e);
             task.status = document.querySelector('.status').checked;
-            e.target.classList.add('dim');
+            e.target.parentNode.classList.add('dim');
         } else {
             task = returnTask(e);
             task.status = document.querySelector('.status').checked;
-            e.target.classList.remove('dim');
+            e.target.parentNode.classList.remove('dim');
         }
         setStorage();
     }

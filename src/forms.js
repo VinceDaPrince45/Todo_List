@@ -94,7 +94,7 @@ export function moveToProjectForm(array) {
             choices.appendChild(choice);
         }
     }
-    choices.style.cssText = 'position:absolute;bottom:30px;background-color:white;border:1px solid black';
+    choices.style.cssText = 'position:absolute;bottom:30px;background-color:rgba(29,29,29,255);border:2px solid rgba(29,29,29,255);font-weight:200;display:flex;flex-direction:column;text-align:center;gap:1em';
     return choices;
 }
 
